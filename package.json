@@ -1,0 +1,16 @@
+{
+  "name": "orchard-2024",
+  "version": "1.0.0",
+  "description": "2024 implementation of Orchard game, originally created in 2017",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robin Friedman",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "phaser": "^2.6.2",
+    "socket.io": "^4.7.5"
+  }
+}
