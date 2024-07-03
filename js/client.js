@@ -1,35 +1,49 @@
 /* Changes: 
-* Re-ordered state management to the top, followed by signals "From Server", then by "From Client"
+* Re-ordered state management to the top, followed by signals "From Server", then by "From Game"
 * Arrow notation for Server State Management and From Server
 */
-const address = window.location.origin + ":3333";
+const address = window.location.origin;
 const Client = {};
 Client.socket = io.connect(address);
 
-/* Server State Management */
-Client.socket.on('wormGo', (data) => {
-    menuState.startWorm(data);
-});
 
-Client.socket.on('wormNo', (data) => {
-    menuState.wormNo(data);
-});
+/* From Game */
+Client.askNewPlayer = function () {
+    Client.socket.emit('newplayer');
+};
 
-Client.socket.on('treeGo', (data) => {
-    menuState.startTree(data);
-});
+Client.askWorm = function () {
+    Client.socket.emit('wormRequest');
+};
 
-Client.socket.on('treeNo', (data) => {
-    menuState.treeNo(data);
-});
+Client.askTree = function () {
+    Client.socket.emit('treeRequest');
+};
 
-Client.socket.on('birdGo', (data) => {
-    menuState.startBird(data);
-});
+Client.askBird = function () {
+    Client.socket.emit('birdRequest');
+};
 
-Client.socket.on('birdNo', (data) => {
-    menuState.birdNo(data);
-});
+Client.sendNutrient = function () {
+    Client.socket.emit('sendNutrient');
+};
+
+Client.pullNutrient = function () {
+    Client.socket.emit('pullNutrient');
+};
+
+Client.sendApple = function () {
+    Client.socket.emit('sendApple');
+};
+
+Client.sendDecay = function () {
+    Client.socket.emit('sendDecay');
+};
+
+Client.sendSeed = function () {
+    Client.socket.emit('sendSeed');
+};
+
 
 /* From Server */
 Client.socket.on('you', (data) => {
@@ -70,39 +84,29 @@ Client.socket.on('updateScore', function (score) {
     birdState.updateScore(score);
 });
 
-/* From Client */
-Client.askNewPlayer = function () {
-    Client.socket.emit('newplayer');
-};
 
-Client.askWorm = function () {
-    Client.socket.emit('wormRequest');
-};
 
-Client.askTree = function () {
-    Client.socket.emit('treeRequest');
-};
+/* Server State Management */
+Client.socket.on('wormGo', (data) => {
+    menuState.startWorm(data);
+});
 
-Client.askBird = function () {
-    Client.socket.emit('birdRequest');
-};
+Client.socket.on('wormNo', (data) => {
+    menuState.wormNo(data);
+});
 
-Client.sendNutrient = function () {
-    Client.socket.emit('sendNutrient');
-};
+Client.socket.on('treeGo', (data) => {
+    menuState.startTree(data);
+});
 
-Client.pullNutrient = function () {
-    Client.socket.emit('pullNutrient');
-};
+Client.socket.on('treeNo', (data) => {
+    menuState.treeNo(data);
+});
 
-Client.sendApple = function () {
-    Client.socket.emit('sendApple');
-};
+Client.socket.on('birdGo', (data) => {
+    menuState.startBird(data);
+});
 
-Client.sendDecay = function () {
-    Client.socket.emit('sendDecay');
-};
-
-Client.sendSeed = function () {
-    Client.socket.emit('sendSeed');
-};
+Client.socket.on('birdNo', (data) => {
+    menuState.birdNo(data);
+});

@@ -60,6 +60,7 @@ var menuState = {
         this.birdx.visible = false;
 
         // Ask server to create an ID for you.
+        console.log("Asking to be a player");
         Client.askNewPlayer();
 
     },
