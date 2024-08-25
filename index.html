@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Orchard 2024!</title>
-		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		<!-- <link rel="icon" type="image/x-icon" href="/favicon.ico"> -->
 
 		<!-- Mission-critical JavaScript -->
 		<script 
@@ -12,34 +12,20 @@
         <script
 			type="text/javascript"
 			src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.js"></script>
-		<!-- <script>
-			const socket = io({transports: ['websocket']}); // specifying transports to hopefully avoid a bunch of re-requesting
-		</script> -->
-
-        <!-- GameStates-->
+	</head>
+	<body>
+		<p>Orchard (2024)</p>
+		<div id="phasergame"></div>
+		
+		<!-- GameStates-->
         <script src="js/boot.js"></script>
         <script src="js/menu.js"></script>
         <script src="js/worm.js"></script>
         <script src="js/tree.js"></script>
         <script src="js/bird.js"></script>
-
+		<!-- Main -->
         <script src="js/main.js"></script>
-
         <!-- Client -->
         <script src="js/client.js"></script>
-
-	</head>
-	<body>
-		<!-- Hello World-->
-		<p>Orchard (2024)</p>
-
-		<!-- Not sure whether this div should be after the script tags (not best practice? But in the original file, they're all loaded in the <head> element sooooo?)
-        Also no clue what the <p> tag period is for either. It was "hiddenText" class. -->
-		<div id="phasergame"></div>
-		<p>.</p>
-
-		<!-- Scripts -->
-        <!-- Moved to the <head> tag (temporarily?)-->
-		
 	</body>
 </html>
