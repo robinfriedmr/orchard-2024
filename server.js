@@ -64,6 +64,12 @@ io.on('connection', (socket) => {
 			} else {
 				return
 			}
+
+			// Upon disconnect, if no player is left in any minigame, reset the server score.
+			if (playerMap[WORM_GAME] == -1 && playerMap[TREE_GAME] == -1 && playerMap[BIRD_GAME] == -1) {
+				console.log("Resetting score.");
+				server.score = 0;
+			}
 		})
 
 		// ************ BEGIN STATE REQUEST FUNCTIONS ***************
