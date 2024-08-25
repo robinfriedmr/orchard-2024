@@ -29,7 +29,7 @@ var wormState = {
             right: game.input.keyboard.addKey(Phaser.Keyboard.D)
         };
 
-        // Arrow keys and spacebar only affect the game, not the browser window.
+        // Arrow keys and spacebar affect the game but not the browser window.
         game.input.keyboard.addKeyCapture(
             [Phaser.Keyboard.UP, Phaser.Keyboard.DOWN,
              Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT,
