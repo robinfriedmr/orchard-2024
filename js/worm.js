@@ -29,7 +29,7 @@ var wormState = {
             right: game.input.keyboard.addKey(Phaser.Keyboard.D)
         };
 
-        // The arrow keys and spacebar will only ever affect the game, not the browswer window.
+        // Arrow keys and spacebar only affect the game, not the browser window.
         game.input.keyboard.addKeyCapture(
             [Phaser.Keyboard.UP, Phaser.Keyboard.DOWN,
              Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT,
@@ -64,7 +64,7 @@ var wormState = {
         }
 
         // Score labels
-        this.wScoreLabel = game.add.text(game.width - 12, game.height - 10, 'Trees Planted: 0', {
+        this.wScoreLabel = game.add.text(game.width - 12, game.height - 10, 'Trees Planted: 0', { // TODO: Start with server score, not 0
             font: '16px Arial',
             fill: '#ffffff'
         });
@@ -88,24 +88,24 @@ var wormState = {
         game.physics.arcade.enable(worm, Phaser.Physics.ARCADE);
         game.physics.arcade.enable(this.goal, Phaser.Physics.ARCADE);
 
-        // Genereate the first five pieces of decay.
+        // Generate the first five pieces of decay.
         for (i = 0; i < 5; i++) {
             this.newDecay();
         }
 
-        if (!game.device.desktop) {
-            // Create an empty label to write the error message if needed
-            this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
-                font: '30px Arial',
-                fill: '#fff',
-                backgroundColor: '#000'
-            });
-            this.rotateLabel.anchor.setTo(0.5, 0.5);
-            // Call 'orientationChange' when the device is rotated
-            game.scale.onOrientationChange.add(this.orientationChange, this);
-            // Call the function at least once
-            this.orientationChange();
-        }
+        // if (!game.device.desktop) {
+        //     // Create an empty label to write the error message if needed
+        //     this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
+        //         font: '30px Arial',
+        //         fill: '#fff',
+        //         backgroundColor: '#000'
+        //     });
+        //     this.rotateLabel.anchor.setTo(0.5, 0.5);
+        //     // Call 'orientationChange' when the device is rotated
+        //     game.scale.onOrientationChange.add(this.orientationChange, this);
+        //     // Call the function at least once
+        //     this.orientationChange();
+        // }
 
         //       game.input.onDown.add(this.makeTrue, this); // CODE FOR CLICKING.
     },

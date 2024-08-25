@@ -215,27 +215,27 @@ var treeState = {
 
     updateScore: function (tScore) {
         if (treeState.tScoreLabel) {
-            treeState.tScoreLabel.setText('trees planted: ' + tScore);
+            treeState.tScoreLabel.setText('Trees Planted: ' + tScore);
         }
     },
 
     // ****************** MOBILE FUNCTIONS *****************
-    addMobileInputs: function () {},
+    // addMobileInputs: function () {},
 
-    orientationChange: function () {
-        // If the game is in portrait (wrong orientation)
-        if (game.scale.isPortrait) {
-            // Pause the game and add a text explanation
-            game.paused = true;
-            this.rotateLabel.text = 'Rotate to landscape';
-        }
-        // If the game is in landscape (good orientation)
-        else {
-            // Resume the game and remove the text
-            game.paused = false;
-            this.rotateLabel.text = '';
-        }
-    },
+    // orientationChange: function () {
+    //     // If the game is in portrait (wrong orientation)
+    //     if (game.scale.isPortrait) {
+    //         // Pause the game and add a text explanation
+    //         game.paused = true;
+    //         this.rotateLabel.text = 'Rotate to landscape';
+    //     }
+    //     // If the game is in landscape (good orientation)
+    //     else {
+    //         // Resume the game and remove the text
+    //         game.paused = false;
+    //         this.rotateLabel.text = '';
+    //     }
+    // },
 
     // ************** UNNEEDED BUT POSSIBLY USEFUL *********
 

@@ -30,7 +30,7 @@ var birdState = {
         this.growingTrees = this.add.group();
 
         // Add score label.
-        birdState.bScoreLabel = game.add.text(50, 30, 'trees planted: 0', {
+        birdState.bScoreLabel = game.add.text(50, 30, 'trees planted: 0', { // TODO: Start with server score, not 0
             font: '24px Arial',
             fill: '#ffffff'
         });
@@ -61,28 +61,28 @@ var birdState = {
 
         this.makeTrash();
 
-        // The arrow keys will only ever affect the game, not the browswer window.
+        // Arrow keys affect the game but not the browser window.
         game.input.keyboard.addKeyCapture(
             [Phaser.Keyboard.UP, Phaser.Keyboard.DOWN,
              Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT,
              Phaser.Keyboard.SPACEBAR]);
 
         // If the device is mobile, also execute these:
-        if (!game.device.desktop) {
-            // Create an empty label to write the error message if needed
-            this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
-                font: '30px Arial',
-                fill: '#fff',
-                backgroundColor: '#000'
-            });
-            this.rotateLabel.anchor.setTo(0.5, 0.5);
-            // Call 'orientationChange' when the device is rotated
-            game.scale.onOrientationChange.add(this.orientationChange, this);
-            // Call the function at least once
-            this.orientationChange();
+        // if (!game.device.desktop) {
+        //     // Create an empty label to write the error message if needed
+        //     this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
+        //         font: '30px Arial',
+        //         fill: '#fff',
+        //         backgroundColor: '#000'
+        //     });
+        //     this.rotateLabel.anchor.setTo(0.5, 0.5);
+        //     // Call 'orientationChange' when the device is rotated
+        //     game.scale.onOrientationChange.add(this.orientationChange, this);
+        //     // Call the function at least once
+        //     this.orientationChange();
 
-            this.addMobileInputs();
-        }
+        //     this.addMobileInputs();
+        // }
 
         this.delay = 4000;
 
@@ -203,15 +203,15 @@ var birdState = {
         if (groundChecked == false) {
             if (game.physics.arcade.overlap(this.seed, this.trash)) {
                 seed.frame = 2;
-                console.log("Bad seed.");
-                console.log("The length of allTrees is " + this.allTrees.length);
-                console.log("The length of growingTrees is " + this.growingTrees.length);
+                // console.log("Bad seed.");
+                // console.log("The length of allTrees is " + this.allTrees.length);
+                // console.log("The length of growingTrees is " + this.growingTrees.length);
             } else {
                 seed.frame = 1; // Give it a healthy appearance
                 this.growingTrees.children.unshift(seed); // Move seed to the front of growingTrees array.
-                console.log("Good seed.");
-                console.log("The length of allTrees is " + this.allTrees.length);
-                console.log("The length of growingTrees is " + this.growingTrees.length);
+                // console.log("Good seed.");
+                // console.log("The length of allTrees is " + this.allTrees.length);
+                // console.log("The length of growingTrees is " + this.growingTrees.length);
 
                 growChecked = false; // The growth needs to be checked.
                 this.growCheck(); // Call for said growth check.
@@ -255,10 +255,10 @@ var birdState = {
             birdState.bScoreLabel.setText('trees planted: ' + bScore);
         }
 
-        const START = 2000,
-            END = 250,
-            SCORE = 20;
-        this.delay = Math.max(start - (start - end) * bScore / SCORE, end);
+        let start = 2000;
+        let end = 250;
+        let score = 20;
+        this.delay = Math.max(start - (start - end) * bScore / score, end);
 
     },
 
@@ -415,22 +415,22 @@ var birdState = {
     },
 
     // ****************** MOBILE FUNCTIONS *****************
-    addMobileInputs: function () {
-        // this.bg.events.onInputDown.add(this.jump, this);
-    },
+    // addMobileInputs: function () {
+    //     // this.bg.events.onInputDown.add(this.jump, this);
+    // },
 
-    orientationChange: function () {
-        // If the game is in portrait (wrong orientation)
-        if (game.scale.isPortrait) {
-            // Pause the game and add a text explanation
-            game.paused = true;
-            this.rotateLabel.text = 'Rotate to landscape';
-        }
-        // If the game is in landscape (good orientation)
-        else {
-            // Resume the game and remove the text
-            game.paused = false;
-            this.rotateLabel.text = '';
-        }
-    },
+    // orientationChange: function () {
+    //     // If the game is in portrait (wrong orientation)
+    //     if (game.scale.isPortrait) {
+    //         // Pause the game and add a text explanation
+    //         game.paused = true;
+    //         this.rotateLabel.text = 'Rotate to landscape';
+    //     }
+    //     // If the game is in landscape (good orientation)
+    //     else {
+    //         // Resume the game and remove the text
+    //         game.paused = false;
+    //         this.rotateLabel.text = '';
+    //     }
+    // },
 };
