@@ -72,11 +72,11 @@ io.on('connection', (socket) => {
 			socket.emit('wormGo', socket.player.id)
 			playerMap[WORM_GAME] = socket.id
 
-			// Everyone else is not allowed to choose Worm.
+			// No one else may choose Worm.
 			server.currentData.wormPD = socket.player.id // update currentData object on server
 			socket.broadcast.emit('wormNo', server.currentData.wormPD) // emit the new value of wormPD
 			console.log(
-				server.currentData.wormPD + ' is the player ID value of wormPD.'
+				server.currentData.wormPD + ' is the Worm.'
 			)
 		})
 		socket.on('treeRequest', function () {
@@ -84,30 +84,30 @@ io.on('connection', (socket) => {
 			socket.emit('treeGo', socket.player.id)
 			playerMap[TREE_GAME] = socket.id
 
-			// Everyone else is not allowed to choose Tree.
+			// No one else may choose Tree.
 			server.currentData.treePD = socket.player.id
 			socket.broadcast.emit('treeNo', server.currentData.treePD)
-			console.log(server.currentData.treePD + ' is the Tree player.')
+			console.log(server.currentData.treePD + ' is the Tree.')
 		})
 		socket.on('birdRequest', function () {
 			// The player who requested Bird is given their own ID.
 			socket.emit('birdGo', socket.player.id)
 			playerMap[BIRD_GAME] = socket.id
 
-			// Everyone else is not allowed to choose Bird.
+			// No one else may choose Bird.
 			server.currentData.birdPD = socket.player.id
 			socket.broadcast.emit('birdNo', server.currentData.birdPD)
-			console.log(server.currentData.birdPD + ' is the Bird player.')
+			console.log(server.currentData.birdPD + ' is the Bird.')
 		})
 		// ************* END REQUEST FUNCTIONS ***************
 
-		console.log('Sending the following to new players:') // Has data been defined, and if so, how so?
+		// Emit player mapping if any minigame has a valid player ID
 		if (
 			server.currentData.wormPD >= 0 ||
 			server.currentData.treePD >= 0 ||
 			server.currentData.birdPD >= 0
 		) {
-			socket.emit('giveIDs', server.currentData) // Send currentData object (with IDs inside).
+			socket.emit('giveIDs', server.currentData) // Send currentData object (with IDs inside). --- Why? Do the players/clients need this specific data?
 			console.log(server.currentData)
 		} else {
 			console.log('No role has been given a valid player ID.')
@@ -171,7 +171,7 @@ server.currentData = {
 	birdPD: -1,
 }
 
-var playerMap = [-1, -1, -1] // Player IDs for each mini game -- How is this map different from server.currentData?
+var playerMap = [-1, -1, -1] // Player IDs for each minigame -- How is this map different from server.currentData?
 const WORM_GAME = 0
 const TREE_GAME = 1
 const BIRD_GAME = 2

@@ -6,7 +6,7 @@ var game = new Phaser.Game(
     Phaser.AUTO, 'phasergame', 
     null, 
     false,
-    false // Disable anti-aliasing
+    false
 );
 
 // Add all the states
