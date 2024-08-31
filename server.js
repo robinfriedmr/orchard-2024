@@ -44,27 +44,25 @@ io.on('connection', (socket) => {
 		socket.on('disconnect', function () {
 			console.log(`Player ${socket.player.id} disconnected.`);
 
-			// Check disconnecting player ID against playerMap.
-			// Change that game's player ID value back to -1 (an invalid ID).
-			// Send the playerMap out for all connected players.
-
+			// Check disconnecting player's ID against playerMap
+			// Change any corresponding mapping back to -1, then emit updated playerMap
 			if (socket.player.id == server.playerMap.wormPD) {
 				server.playerMap.wormPD = -1
 				server.playerMap.wormPD = -1
-				io.emit('refreshIDs', server.playerMap)
+				io.emit('giveIDs', server.playerMap)
 			} else if (socket.player.id == server.playerMap.treePD) {
 				server.playerMap.treePD = -1
 				server.playerMap.treePD = -1
-				io.emit('refreshIDs', server.playerMap)
+				io.emit('giveIDs', server.playerMap)
 			} else if (socket.player.id == server.playerMap.birdPD) {
 				server.playerMap.birdPD = -1
 				server.playerMap.birdPD = -1
-				io.emit('refreshIDs', server.playerMap)
+				io.emit('giveIDs', server.playerMap)
 			} else {
 				return
 			}
 
-			// If no player is left in any minigame, reset the server score.
+			// If no player is left in any minigame, reset the server score
 			if (server.playerMap.wormPD == -1 && server.playerMap.treePD == -1 && server.playerMap.birdPD == -1) {
 				console.log("Resetting score.");
 				server.score = 0;
@@ -165,12 +163,34 @@ io.on('connection', (socket) => {
 	})
 })
 
-// Players and Score
-server.score = 0
-
-server.lastPlayerID = 0 // Newest visitor?
+// Player IDs
+server.lastPlayerID = 0
 server.playerMap = {
 	wormPD: -1,
 	treePD: -1,
 	birdPD: -1,
+}
+
+// Progress and Score
+server.score = 0
+server.wormData = {
+	roots: [
+		// ? Never developed meaningfully
+	],
+	nutrients: {
+		held: 0,
+		delivered: 0,
+		dirt: [
+			// {x, y}
+		]
+	}
+}
+server.treeData = {
+	totalCreated: 0,
+	current: 0 // 0 = green, 1 = yellow, 2 = red?
+}
+server.birdData = {
+	trees: [
+		// {x, variant (or frame?), growth stage (depending what the end game is?)}
+	]
 }
