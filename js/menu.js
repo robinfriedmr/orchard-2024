@@ -139,7 +139,7 @@ var menuState = {
         console.log(`You, Player ${id}, are birdPlayer.`);
     },
 
-    // Someone else has already taken this state! -- REDUNDANT?
+    // Someone else has already taken this state!
     wormNo: function (id) {
         this.wormPlayer = id;
         this.wormx.visible = true;

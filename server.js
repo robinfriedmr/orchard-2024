@@ -33,17 +33,16 @@ io.on('connection', (socket) => {
 
     // When the given socket emits "newplayer", do these...
 	socket.on('newplayer', function () {
-		// Server assigns an ID to the new player
+		// Assign ID to the new player, increment for next player's ID
 		socket.player = {
 			id: server.lastPlayerID++,
 		}
-		console.log(`Welcome, Player ${socket.player.id}!`)
-
-		// Server sends player their ID number
-		socket.emit('you', socket.player.id)
+		// Send ID number to the new player
+		socket.emit('yourID', socket.player.id);
+		console.log(`Welcome, Player ${socket.player.id}!`);
 
 		socket.on('disconnect', function () {
-			console.log('Player ' + socket.player.id + ' disconnected.')
+			console.log(`Player ${socket.player.id} disconnected.`);
 
 			// Check disconnecting player ID against currentData.
 			// Change that game's player ID value back to -1 (an invalid ID).
@@ -52,15 +51,15 @@ io.on('connection', (socket) => {
 			if (socket.player.id == server.currentData.wormPD) {
 				playerMap[WORM_GAME] = -1
 				server.currentData.wormPD = -1
-				io.emit('refreshID', server.currentData)
+				io.emit('refreshIDs', server.currentData)
 			} else if (socket.player.id == server.currentData.treePD) {
 				playerMap[TREE_GAME] = -1
 				server.currentData.treePD = -1
-				io.emit('refreshID', server.currentData)
+				io.emit('refreshIDs', server.currentData)
 			} else if (socket.player.id == server.currentData.birdPD) {
 				playerMap[BIRD_GAME] = -1
 				server.currentData.birdPD = -1
-				io.emit('refreshID', server.currentData)
+				io.emit('refreshIDs', server.currentData)
 			} else {
 				return
 			}
@@ -141,8 +140,11 @@ io.on('connection', (socket) => {
 
 		socket.on('sendDecay', function () {
 			console.log("server has the bird's decaying apple")
-			if (playerMap[WORM_GAME] != -1) {
-				socket.to(playerMap[WORM_GAME]).emit('receiveDecay')
+			// if (playerMap[WORM_GAME] != -1) {
+			if (server.currentData.wormPD != -1) {
+				// socket.to(playerMap[WORM_GAME]).emit('receiveDecay')
+				socket.to(server.currentData.wormPD).emit('receiveDecay')
+				console.log("Server has given Worm the decay")
 			}
 		})
 
@@ -152,9 +154,9 @@ io.on('connection', (socket) => {
 			if (playerMap[WORM_GAME] != -1) {
 				socket.to(playerMap[WORM_GAME]).emit('plantRoot') // tell the worm player to have a new root
 			}
-			server.score++ //increase server score
+			server.score++ // Increment score
 			console.log(`Score: ${server.score}`);
-			io.emit('updateScore', server.score)
+			io.emit('updateScore', server.score); // What's the difference between emit and broadcast.emit, and does it matter?
 		})
 		// ** END BATON PASS **
 	})

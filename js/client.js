@@ -40,7 +40,7 @@ Client.sendSeed = function () {
 };
 
 /* From Server */
-Client.socket.on('you', (data) => {
+Client.socket.on('yourID', (data) => {
     menuState.setID(data);
 });
 
@@ -48,7 +48,7 @@ Client.socket.on('giveIDs', (data) => {
     menuState.giveIDs(data.wormPD, data.treePD, data.birdPD);
 });
 
-Client.socket.on('refreshID', (data) => {
+Client.socket.on('refreshIDs', (data) => {
     menuState.giveIDs(data.wormPD, data.treePD, data.birdPD);
 });
 
