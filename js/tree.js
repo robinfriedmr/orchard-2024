@@ -128,7 +128,7 @@ var treeState = {
             }
             if (hits == 2) {
                 this.growingapple.tint = 0xE60C0C;
-                speed = speed * 2;
+                speed = speed * 1.5;
             }
             if (hits == 3) {
                 this.growingapple.tint = 0x17E60C;

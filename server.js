@@ -41,6 +41,18 @@ io.on('connection', (socket) => {
 		socket.emit('yourID', socket.player.id);
 		console.log(`Welcome, Player ${socket.player.id}!`);
 
+		// Emit player mapping if any minigame has a valid player ID
+		if (
+			server.playerMap.wormPD >= 0 ||
+			server.playerMap.treePD >= 0 ||
+			server.playerMap.birdPD >= 0
+		) {
+			socket.emit('giveIDs', server.playerMap); // Send playerMap to Menu State
+			// console.log(server.playerMap);
+		} else {
+			console.log('No role has been given a valid player ID.');
+		}
+
 		socket.on('disconnect', function () {
 			console.log(`Player ${socket.player.id} disconnected.`);
 
@@ -102,20 +114,10 @@ io.on('connection', (socket) => {
 		})
 		// ** END GAME STATE REQUEST FUNCTIONS **
 
-		// Emit player mapping if any minigame has a valid player ID
-		if (
-			server.playerMap.wormPD >= 0 ||
-			server.playerMap.treePD >= 0 ||
-			server.playerMap.birdPD >= 0
-		) {
-			socket.emit('giveIDs', server.playerMap) // Send playerMap (has player IDs) for Menu State
-			console.log(server.playerMap)
-		} else {
-			console.log('No role has been given a valid player ID.')
-		}
-
 		// ** BEGIN BATON PASS **
 		socket.on('sendNutrient', function () {
+			server.wormData.delivered++;
+			console.log(`Delivered total: ${server.wormData.delivered}`); // NaN
 			console.log("server has wormplayer's nutrient")
 			if (server.playerMap.treePD != -1) {
 				socket.to(server.playerMap.treePD).emit('receiveNutrient')
@@ -130,6 +132,8 @@ io.on('connection', (socket) => {
 		})
 
 		socket.on('sendApple', function () {
+			server.treeData.applesCreated++;
+			console.log(`Created total: ${server.treeData.applesCreated}`);
 			console.log("server has the tree's apple")
 			if (server.playerMap.birdPD != -1) {
 				socket.to(server.playerMap.birdPD).emit('receiveApple')
@@ -137,6 +141,7 @@ io.on('connection', (socket) => {
 		})
 
 		socket.on('sendDecay', function () {
+			// server.wormData.nutrients.dirt // create a Nutrient, place it. Will make a JS object? How (where) do nutrients populate now?
 			console.log("server has the bird's decaying apple")
 			if (server.playerMap.wormPD != -1) {
 				socket.to(server.playerMap.wormPD).emit('receiveDecay')
@@ -146,6 +151,7 @@ io.on('connection', (socket) => {
 
 		// Score!
 		socket.on('sendSeed', function () {
+			// server.birdData.trees // log new tree in this array. JS object?
 			console.log('Seed planted.');
 			if (server.playerMap.wormPD != -1) {
 				socket.to(server.playerMap.wormPD).emit('plantRoot') // tell the worm player to have a new root
@@ -186,7 +192,7 @@ server.wormData = {
 	}
 }
 server.treeData = {
-	totalCreated: 0,
+	applesCreated: 0,
 	current: 0 // 0 = green, 1 = yellow, 2 = red?
 }
 server.birdData = {
