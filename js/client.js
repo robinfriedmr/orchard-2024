@@ -1,11 +1,6 @@
-/* Changes: 
-* Re-ordered state management to the top, followed by signals "From Server", then by "From Game"
-* Arrow notation for Server State Management and From Server
-*/
 const address = window.location.origin;
 const Client = {};
 Client.socket = io.connect(address);
-
 
 /* From Game */
 Client.askNewPlayer = function () {
@@ -43,7 +38,6 @@ Client.sendDecay = function () {
 Client.sendSeed = function () {
     Client.socket.emit('sendSeed');
 };
-
 
 /* From Server */
 Client.socket.on('you', (data) => {
@@ -84,9 +78,7 @@ Client.socket.on('updateScore', function (score) {
     birdState.updateScore(score);
 });
 
-
-
-/* Server State Management */
+/* Server Game State Management */
 Client.socket.on('wormGo', (data) => {
     menuState.startWorm(data);
 });

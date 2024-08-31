@@ -9,19 +9,19 @@ this.running = false;
 var menuState = {
     create: function () {
 
-        if (!game.device.desktop) {
-            // Create an empty label to write the error message if needed
-            this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
-                font: '30px Arial',
-                fill: '#fff',
-                backgroundColor: '#000'
-            });
-            this.rotateLabel.anchor.setTo(0.5, 0.5);
-            // Call 'orientationChange' when the device is rotated
-            game.scale.onOrientationChange.add(this.orientationChange, this);
-            // Call the function at least once
-            this.orientationChange();
-        }
+        // if (!game.device.desktop) {
+        //     // Create an empty label to write the error message if needed
+        //     this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', {
+        //         font: '30px Arial',
+        //         fill: '#fff',
+        //         backgroundColor: '#000'
+        //     });
+        //     this.rotateLabel.anchor.setTo(0.5, 0.5);
+        //     // Call 'orientationChange' when the device is rotated
+        //     game.scale.onOrientationChange.add(this.orientationChange, this);
+        //     // Call the function at least once
+        //     this.orientationChange();
+        // }
         
         this.running = true;
 
@@ -35,11 +35,11 @@ var menuState = {
 
         // Explain how to start the game based on the device used. Variable is text.
         var text;
-        if (game.device.desktop) {
-            text = 'click a level to start';
-        } else {
-            text = 'tap a level to start';
-        }
+        // if (game.device.desktop) {
+            text = 'Click a level to start';
+        // } else {
+        //     text = 'tap a level to start';
+        // }
         var startLabel = game.add.text(game.width / 2, game.height - 60,
             text, {
                 font: '25px Arial',
@@ -59,28 +59,25 @@ var menuState = {
         this.birdx = game.add.sprite(game.width / 2 + 100, game.height / 2 - 25, 'x');
         this.birdx.visible = false;
 
-        // Ask server to create an ID for you.
-        console.log("Asking to be a player");
+        // Ask server to create an ID for you
         Client.askNewPlayer();
 
     },
 
-    // Assign the player an ID. This is now a global variable.
+    // Player gets an ID (global variable)
     setID: function (id) {
         this.myPlayerID = id;
-        console.log("The PlayerID I have now is " + this.myPlayerID);
+        console.log(`My PlayerID is ${this.myPlayerID}`);
     },
 
-    // New player collects current values.
-    // Existing players get refreshed values.
+    // All players get current player-minigame mapping
     giveIDs: function (worm, tree, bird) {
         this.wormPlayer = worm;
         this.treePlayer = tree;
         this.birdPlayer = bird;
-        console.log("The players are now set equal to: " + worm + ", " + tree + ", " + bird);
 
-        if (this.running == true) { // If menu state is currently running...
-            // If data comes back with a valid ID, don't let the new player choose that option.
+        // If the menu state is running, show which minigames can/not be started
+        if (this.running == true) {
             if (this.wormPlayer >= 0) {
                 this.wormx.visible = true;
                 this.wormbutton.inputEnabled = false;
@@ -107,7 +104,7 @@ var menuState = {
         }
     },
 
-    // You want to play this state!
+    // You want to play this minigame!
     askWorm: function () {
         Client.askWorm();
     },
@@ -125,24 +122,24 @@ var menuState = {
         this.running = false;
         game.state.start('worm');
         this.wormPlayer = id;
-        console.log("You, " + id + ", are wormPlayer.");
+        console.log(`You, Player ${id}, are wormPlayer.`);
     },
 
     startTree: function (id) {
         this.running = false;
         game.state.start('tree');
         this.treePlayer = id;
-        console.log("You, " + id + ", are treePlayer.");
+        console.log(`You, Player ${id}, are treePlayer.`);
     },
 
     startBird: function (id) {
         this.running = false;
         game.state.start('bird');
         this.birdPlayer = id;
-        console.log("you, " + id + ", are birdPlayer.");
+        console.log(`You, Player ${id}, are birdPlayer.`);
     },
 
-    // Someone else has already taken this state!
+    // Someone else has already taken this state! -- REDUNDANT?
     wormNo: function (id) {
         this.wormPlayer = id;
         this.wormx.visible = true;
@@ -162,18 +159,18 @@ var menuState = {
     },
 
     // MOBILE-ONLY FUNCTIONS
-    orientationChange: function () {
-        // If the game is in portrait (wrong orientation)
-        if (game.scale.isPortrait) {
-            // Pause the game and add a text explanation
-            game.paused = true;
-            this.rotateLabel.text = 'Rotate to landscape';
-        }
-        // If the game is in landscape (good orientation)
-        else {
-            // Resume the game and remove the text
-            game.paused = false;
-            this.rotateLabel.text = '';
-        }
-    },
+    // orientationChange: function () {
+    //     // If the game is in portrait (wrong orientation)
+    //     if (game.scale.isPortrait) {
+    //         // Pause the game and add a text explanation
+    //         game.paused = true;
+    //         this.rotateLabel.text = 'Rotate to landscape';
+    //     }
+    //     // If the game is in landscape (good orientation)
+    //     else {
+    //         // Resume the game and remove the text
+    //         game.paused = false;
+    //         this.rotateLabel.text = '';
+    //     }
+    // },
 };

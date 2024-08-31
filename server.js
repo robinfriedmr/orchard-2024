@@ -65,14 +65,14 @@ io.on('connection', (socket) => {
 				return
 			}
 
-			// Upon disconnect, if no player is left in any minigame, reset the server score.
+			// If no player is left in any minigame, reset the server score.
 			if (playerMap[WORM_GAME] == -1 && playerMap[TREE_GAME] == -1 && playerMap[BIRD_GAME] == -1) {
 				console.log("Resetting score.");
 				server.score = 0;
 			}
 		})
 
-		// ************ BEGIN STATE REQUEST FUNCTIONS ***************
+		// ** BEGIN GAME STATE REQUEST FUNCTIONS **
 		socket.on('wormRequest', function () {
 			// The player who requested Worm is given their own ID.
 			socket.emit('wormGo', socket.player.id)
@@ -81,9 +81,7 @@ io.on('connection', (socket) => {
 			// No one else may choose Worm.
 			server.currentData.wormPD = socket.player.id // update currentData object on server
 			socket.broadcast.emit('wormNo', server.currentData.wormPD) // emit the new value of wormPD
-			console.log(
-				server.currentData.wormPD + ' is the Worm.'
-			)
+			console.log(`Player ${server.currentData.wormPD} is the Worm.`);
 		})
 		socket.on('treeRequest', function () {
 			// The player who requested Tree is given their own ID.
@@ -93,7 +91,7 @@ io.on('connection', (socket) => {
 			// No one else may choose Tree.
 			server.currentData.treePD = socket.player.id
 			socket.broadcast.emit('treeNo', server.currentData.treePD)
-			console.log(server.currentData.treePD + ' is the Tree.')
+			console.log(`Player ${server.currentData.treePD} is the Tree.`);
 		})
 		socket.on('birdRequest', function () {
 			// The player who requested Bird is given their own ID.
@@ -103,9 +101,9 @@ io.on('connection', (socket) => {
 			// No one else may choose Bird.
 			server.currentData.birdPD = socket.player.id
 			socket.broadcast.emit('birdNo', server.currentData.birdPD)
-			console.log(server.currentData.birdPD + ' is the Bird.')
+			console.log(`Player ${server.currentData.birdPD} is the Bird.`);
 		})
-		// ************* END REQUEST FUNCTIONS ***************
+		// ** END GAME STATE REQUEST FUNCTIONS **
 
 		// Emit player mapping if any minigame has a valid player ID
 		if (
@@ -113,13 +111,13 @@ io.on('connection', (socket) => {
 			server.currentData.treePD >= 0 ||
 			server.currentData.birdPD >= 0
 		) {
-			socket.emit('giveIDs', server.currentData) // Send currentData object (with IDs inside). --- Why? Do the players/clients need this specific data?
+			socket.emit('giveIDs', server.currentData) // Send currentData (has player IDs) for Menu State
 			console.log(server.currentData)
 		} else {
 			console.log('No role has been given a valid player ID.')
 		}
 
-		// ************* BEGIN BATON PASS ********************
+		// ** BEGIN BATON PASS **
 		socket.on('sendNutrient', function () {
 			console.log("server has wormplayer's nutrient")
 			if (playerMap[TREE_GAME] != -1) {
@@ -150,15 +148,15 @@ io.on('connection', (socket) => {
 
 		// Score!
 		socket.on('sendSeed', function () {
-			console.log('Server has planted the seed.')
+			console.log('Seed planted.');
 			if (playerMap[WORM_GAME] != -1) {
 				socket.to(playerMap[WORM_GAME]).emit('plantRoot') // tell the worm player to have a new root
 			}
 			server.score++ //increase server score
-			console.log('The score is now ' + server.score)
+			console.log(`Score: ${server.score}`);
 			io.emit('updateScore', server.score)
 		})
-		// ************* END BATON PASS ********************
+		// ** END BATON PASS **
 	})
 
     // On disconnection, log message
