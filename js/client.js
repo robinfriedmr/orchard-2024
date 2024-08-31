@@ -48,10 +48,6 @@ Client.socket.on('giveIDs', (data) => {
     menuState.giveIDs(data.wormPD, data.treePD, data.birdPD);
 });
 
-Client.socket.on('refreshIDs', (data) => {
-    menuState.giveIDs(data.wormPD, data.treePD, data.birdPD);
-});
-
 Client.socket.on('receiveNutrient', () => {
     treeState.nutrientSupply();
 });
