@@ -11,6 +11,6 @@
   "dependencies": {
     "express": "^4.21.1",
     "phaser": "^2.6.2",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.8.1"
   }
 }
